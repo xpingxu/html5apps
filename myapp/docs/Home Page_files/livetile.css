@@ -1,0 +1,35 @@
+﻿.metroBlock {
+	width: 600px; margin-left: auto; margin-right: auto; position: relative;
+	list-style: none; margin: 0; padding: 0; display: block;
+}
+
+.metroBlock li { margin: 0; padding: 0; display: block; }
+
+.hb1, .hb2, .hb3, .hb4, .hb5, .hb6, .hb7 { position: absolute; }
+
+.hb1 { width: 200px; height: 200px; left: 0; top: 0; background-color: #58a7bf; }
+.hb2 { width: 390px; height: 200px; left: 210px; top: 0; }
+.hb3 { width: 390px; height: 200px; left: 0; top: 210px; background-color: #4e534b; }
+.hb4, .hb5, .hb6, .hb7 { width: 95px; height: 95px; background-color: #970000;  background-position: center center; background-repeat: no-repeat; }
+.hb4 { left: 400px; top: 210px; }
+		
+.hb5 { left: 505px; top: 210px; }
+.hb6 { left: 400px; top: 315px; }
+.hb7 { left: 505px; top: 315px; }
+		
+.hb4:hover, .hb7:hover, .hb5:hover, #hb6:hover { background-color: #c03a00; cursor: pointer;}
+
+.smallTileBack { background-color: #fff; color: #000; }
+	.smallTileBack span { background-color: #fff; color: #000;  position: absolute; width: 91px; bottom: 4px; left: 4px;}
+		li.smallTileBack:hover { background-color: #fff; }
+
+.fbIcon { background-image: url('images/fbtileicon.png'); }
+.twIcon { background-image: url('images/twtileicon.png');}
+.cuIcon { background-image: url('images/contacttileicon.png');}
+.tmIcon { background-image: url('images/testimonialtileicon.png');}
+
+.hb2 div { height: 200px; color: #000; font-weight: bold; }
+.hb2A { background-color: #7e7e66; width: 390px; position: absolute; z-index: 2; left: 0; top: 0; overflow: hidden;}
+.hb2B { background-color: #ccc; width: 0; position: absolute; z-index: 1; left: 0; top: 0; overflow: hidden;  }
+.hb2C { width: 390px; z-index: 999; position: absolute; left: 0; top: 0;  }
+	div.hb2C img { width: 390px; height: 200px; }

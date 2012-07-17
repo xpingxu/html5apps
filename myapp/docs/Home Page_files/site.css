@@ -1,0 +1,100 @@
+﻿
+body {
+    background-color: #212b40;
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #b0c3ed;
+}
+
+#Page { width: 994px; margin-left: auto; margin-right: auto;}
+#Header {margin-top: 10px; }
+	#Header:hover { background-color: #6495ed; cursor: pointer;} 
+
+.clear { height: 1px;margin-top: -1px;clear: both;}
+
+#Nav ul { display: block; list-style: none; margin: 0; padding: 0; }
+#Nav ul li { width: 125px; height: 75px; display: block; float: left; margin-right: 10px; margin-top: 10px;
+             line-height: 75px; background-color: #6082a5; color: #fff; font-weight: bold; text-align: center;}
+#Nav ul li:hover { background-color: #FF8C00;}
+#Nav ul li a { width: 100%; height: 75px; line-height: 75px; text-align: center; cursor: pointer; display: block;
+               color: #fff; text-decoration: none; border: none;}
+             
+#Content {margin-top: 10px; }
+
+/*
+#hb1, #hb2, #hb3, #hb4, #hb5, #hb6, #hb7 { position: absolute; }
+
+#hb1 { width: 200px; height: 200px; left: 0; top: 0; background-color: #58a7bf; }
+#hb2 { width: 390px; height: 200px; left: 210px; top: 0; background-color: #7e7e66; }
+#hb3 { width: 390px; height: 200px; left: 0; top: 210px; background-color: #4e534b; }
+#hb4, #hb5, #hb6, #hb7 { width: 95px; height: 95px; background-color: #970000;  background-position: center center; background-repeat: no-repeat; }
+#hb4 { left: 400px; top: 210px; background-image: url('images/fbtileicon.png'); }
+#hb5 { left: 505px; top: 210px; background-color: #fff; }
+#hb6 { left: 400px; top: 315px; background-color: #fff; }
+#hb7 { left: 505px; top: 315px; background-image: url('images/twtileicon.png');}
+#hb4:hover, #hb7:hover { background-color: #c03a00; cursor: pointer;}
+
+#hb4 span, #hb7 span { position: absolute; width: 95px; bottom: 4px; left: 4px; color: #fff;}
+*/
+
+
+
+
+
+
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.display-label, 
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.display-field, 
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+.text-box {
+    width: 30em;
+}
+
+.text-box.multi-line {
+    height: 6.5em;
+}
+
+.tri-state {
+    width: 6em;
+}
+
+#pivotDemo div
+{
+    width:  900px;
+}
