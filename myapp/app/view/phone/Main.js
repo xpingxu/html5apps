@@ -6,7 +6,7 @@ Ext.define('MyApp.view.phone.Main', {
 
     config: {
         fullscreen: true,
-        title: 'MyApp',
+        title: 'Test',
         useTitleAsBackText: false,
         layout: {
             animation: {

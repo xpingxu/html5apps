@@ -29,7 +29,7 @@ Ext.application({
         'YQL'
     ],
 
-    stores: ['Demos'],
+    stores: ['Demos','MyStore'],
     profiles: ['Tablet', 'Phone']
     /*
     launch: function() {
