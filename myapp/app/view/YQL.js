@@ -27,11 +27,11 @@ Ext.require('Ext.data.JsonP', function() {
 
 
 
-
+    var htmlContent="this is a empty html";
     Ext.define('MyApp.view.YQL', {
         extend: 'Ext.Container',
         requires: ['MyApp.model.Feed'],
-
+        /*
         stockLookup: {
             SHA1: {
                 query: "select * from html where url='http://www.google.com/finance?q=SHA:600036' and xpath='//div[@id=\"price-panel\"]/div/span/span'",
@@ -40,7 +40,32 @@ Ext.require('Ext.data.JsonP', function() {
                 ])            
             }
         },
+        */
         
+        initialize: function(){
+            console.log("this is the initialize");
+            var store=Ext.getStore('MyStore');
+            var feed = store.findRecord('id','STOCK');
+            //console.log(feed.get('url'));
+
+            var tpl = new Ext.XTemplate(['<p>{span.content}</p>']);
+            
+
+            Ext.YQL.request({
+                //query: "select * from html where url='http://www.google.com/finance?q=SHA:600036' and xpath='//div[@id=\"price-panel\"]/div/span/span'",
+                query: feed.get('url'),
+                callback: function(success, response) {
+                    if (success && response.query && response.query.results) {    
+                        console.log("results:"+response.query.results);
+                        htmlContent = response.query.results;
+                    }
+                    else { 
+                        Ext.Msg.alert('Error', 'There was an error retrieving the YQL request.', Ext.emptyFn);
+                    }
+                },
+            });
+
+        },
         config: {
             scrollable: true,
             layout: 'vbox',
@@ -48,7 +73,8 @@ Ext.require('Ext.data.JsonP', function() {
                 {
                     xtype: 'panel',
                     id   : 'STOCK',
-                    styleHtmlContent: true
+                    styleHtmlContent: true,
+                    html : htmlContent
                 },
                 {
                     xtype: 'panel',
@@ -69,10 +95,8 @@ Ext.require('Ext.data.JsonP', function() {
                         scope: this,
                         handler: function() {
                             //console.log("========="); // logs "Hello World"
-                            var panel = Ext.getCmp('STOCK'),
-                            tpl = new Ext.XTemplate([
-                                    '<p>{span.content}</p>'
-                            ]);
+                            var panel = Ext.getCmp('STOCK');
+
                             panel.getParent().setMasked({
                                 xtype: 'loadmask',
                                 message: 'Loading...'
