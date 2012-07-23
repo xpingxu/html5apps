@@ -48,7 +48,7 @@ Ext.require('Ext.data.JsonP', function() {
             var feed = store.findRecord('id','STOCK');
             //console.log(feed.get('url'));
 
-            var tpl = new Ext.XTemplate(['<p>{span.content}</p>']);
+            var tpl = new Ext.XTemplate(['<p>{span[0].content}{span[1].content}/p>']);
             
 
             Ext.YQL.request({
@@ -56,16 +56,21 @@ Ext.require('Ext.data.JsonP', function() {
                 query: feed.get('url'),
                 callback: function(success, response) {
                     if (success && response.query && response.query.results) {    
-                        console.log("results:"+response.query.results);
-                        htmlContent = response.query.results;
+                        feed.set('current',response.query.results);
+                        feed.set('update','Y');
+                        feed.save();
                     }
                     else { 
+                        feed.set('update','N');
+                        feed.save();
                         Ext.Msg.alert('Error', 'There was an error retrieving the YQL request.', Ext.emptyFn);
                     }
                 },
             });
 
         },
+
+
         config: {
             scrollable: true,
             layout: 'vbox',
@@ -94,33 +99,16 @@ Ext.require('Ext.data.JsonP', function() {
                         text: 'STOCK',
                         scope: this,
                         handler: function() {
-                            //console.log("========="); // logs "Hello World"
+                           
+                            var store=Ext.getStore('MyStore');
+                            var feed = store.findRecord('id','STOCK');
                             var panel = Ext.getCmp('STOCK');
+                            panel.setHtml(feed.applyCurrent());
 
-                            panel.getParent().setMasked({
-                                xtype: 'loadmask',
-                                message: 'Loading...'
-                            });
-                            //var me = this;
-                            //var options = this.stockLookup['SHA1'];
-                            console.log(panel);
-                            Ext.YQL.request({
-                                query: "select * from html where url='http://www.google.com/finance?q=SHA:600036' and xpath='//div[@id=\"price-panel\"]/div/span/span'",
-                                //query: options.query,
-                                callback: function(success, response) {
-                                    if (success && response.query && response.query.results) {    
-                                        panel.setHtml(tpl.apply(response.query.results)+"END");
-                                        //panel.setHtml(options.tpl.apply(response.query.results));
+                            //var tpl = new Ext.XTemplate([feed.get('template')]);
+                            //var html = feed.applyCurrent();
+                            //panel.setHtml(tpl.apply(feed.get('current')));
 
-                                        //panel.setHtml("this is a testing");
-                                    }
-                                    else { 
-                                        Ext.Msg.alert('Error', 'There was an error retrieving the YQL request.', Ext.emptyFn);
-                                    }
-
-                                    panel.getParent().unmask();
-                                },
-                            });
                         },
                     },
                     {

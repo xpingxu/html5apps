@@ -281,7 +281,12 @@
                 text: 'YQL2',
                 leaf: true,
                 id: 'yql2'
-            },            
+            },   
+            {
+                text: 'YQL3',
+                leaf: true,
+                id: 'yql3'
+            },                       
             {
                 text: 'Ajax',
                 leaf: true,
