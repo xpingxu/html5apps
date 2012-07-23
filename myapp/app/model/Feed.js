@@ -22,6 +22,8 @@ Ext.define('MyApp.model.Feed', {
         console.log ('tempalte='+this.get('template'));
         console.log ('current='+this.get('current'));
         var tpl = new Ext.XTemplate([this.get('template')]);
-        return tpl.apply(this.get('current'));
+        var html =  tpl.apply(this.get('current'));
+        console.log ('html='+html);
+        return html;
     }        
 });

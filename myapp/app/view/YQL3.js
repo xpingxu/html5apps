@@ -106,32 +106,38 @@ Ext.YQL = {
 var mystore = Ext.getStore('MyStore');
 Ext.define('MyApp.view.YQL3', {
     extend: 'Ext.tab.Panel',
-    launch: function(){
+    initialize: function(){
         console.log("this is the initialize");
+        var store=Ext.getStore('MyStore');
         var feeds = store.getRange(0, store.getCount());   
         for (var i = 0; i < feeds.length; i++) {   
-            var feed = feeds[i];   
-            console.log("feedId="+feed.getId());   
+            var feed = feeds[i];
             Ext.YQL.request({
                 query: feed.get('url'),
                 callback: function(success, response) {
+                    //console.log("feedId="+feed.getId());                       
                     if (success && response.query && response.query.results) {    
+                        console.log (response.query);
                         feed.set('current',response.query.results);
+                        feed.applyCurrent();
                         feed.set('update','Y');
                         feed.save();
-                        console.log(response.query.results);
-                        console.log ("success:" + response.query);
+                        //console.log(response.query.results);
+                        //console.log ("success:" + response.query);
                     }
                     else { 
                         feed.set('update','N');
                         feed.save();
-                        console.log ("failed:" + response.query);
+                        //console.log ("failed:" + response.query);
                     }
                 },
             });
         }      
     },    
-    initialize: function(){
+    launch: function(){
+        console.log("this is the launch");
+        this.callParent(arguments);
+        this.element.on('tap', this.onTap, this);
         var store=Ext.getStore('MyStore');
         var feeds = store.getRange(0, store.getCount());    
         for (var i = 0; i < feeds.length; i++) {               
@@ -162,10 +168,12 @@ Ext.define('MyApp.view.YQL3', {
                 width: Ext.os.deviceType == 'Phone' ? null : 300,
                 height: Ext.os.deviceType == 'Phone' ? null : 500,
                 xtype: 'list',
-                store: 'ListStore',
-                itemTpl: '<div class="contact"><strong>{firstName}</strong> {lastName}</div>'
+                store: mystore,
+                itemTpl: '<div class="contact"><strong>current={current}</br></strong>template={template}</br>name={name}</div>'
             }]
-        }, {
+        }, 
+        /*
+        {
             title: 'Grouped',
             layout: Ext.os.deviceType == 'Phone' ? 'fit' : {
                 type: 'vbox',
@@ -178,11 +186,12 @@ Ext.define('MyApp.view.YQL3', {
                 height: Ext.os.deviceType == 'Phone' ? null : 500,
                 xtype: 'list',
                 store: 'ListStore',
-                itemTpl: '<div class="contact"><strong>{firstName}</strong> {lastName}</div>',
-                grouped: true,
+                itemTpl: '<div class="contact"><strong>current={current}</br></strong>template={template}</br>name={name}</div>',
+                //grouped: true,
                 indexBar: true
             }]
-        }, {
+        }, 
+        {
             title: 'Disclosure',
             layout: Ext.os.deviceType == 'Phone' ? 'fit' : {
                 type: 'vbox',
@@ -201,8 +210,10 @@ Ext.define('MyApp.view.YQL3', {
                     Ext.Msg.alert('Tap', 'Disclose more info for ' + record.get('firstName'), Ext.emptyFn);
                 },
                 store: mystore, //getRange(0, 9),
-                itemTpl: '<div class="contact"><strong>{current}</strong> {update}</div>'
+                itemTpl: '<div class="contact"><strong>current={current}</br></strong>template={template}</br>name={name}</div>'
             }]
-        }]
+        }
+        */
+        ]
     }
 });
