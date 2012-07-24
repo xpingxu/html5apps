@@ -1,84 +1,3 @@
-/**
- * Demonstrates how to create a simple List based on inline data.
- * First we create a simple Contact model with first and last name fields, then we create a Store to contain
- * the data, finally we create the List itself, which gets its data out of the Store
- */
-Ext.define('Contact', {
-    extend: 'Ext.data.Model',
-    config: {
-        fields: ['firstName', 'lastName']
-    }
-});
-
-Ext.create('Ext.data.Store', {
-    id: 'ListStore',
-    model: 'Contact',
-    sorters: 'firstName',
-    grouper: function(record) {
-        return record.get('firstName')[0];
-    },
-    data: [
-        {firstName: 'Julio', lastName: 'Benesh'},
-        {firstName: 'Julio', lastName: 'Minich'},
-        {firstName: 'Tania', lastName: 'Ricco'},
-        {firstName: 'Odessa', lastName: 'Steuck'},
-        {firstName: 'Nelson', lastName: 'Raber'},
-        {firstName: 'Tyrone', lastName: 'Scannell'},
-        {firstName: 'Allan', lastName: 'Disbrow'},
-        {firstName: 'Cody', lastName: 'Herrell'},
-        {firstName: 'Julio', lastName: 'Burgoyne'},
-        {firstName: 'Jessie', lastName: 'Boedeker'},
-        {firstName: 'Allan', lastName: 'Leyendecker'},
-        {firstName: 'Javier', lastName: 'Lockley'},
-        {firstName: 'Guy', lastName: 'Reasor'},
-        {firstName: 'Jamie', lastName: 'Brummer'},
-        {firstName: 'Jessie', lastName: 'Casa'},
-        {firstName: 'Marcie', lastName: 'Ricca'},
-        {firstName: 'Gay', lastName: 'Lamoureaux'},
-        {firstName: 'Althea', lastName: 'Sturtz'},
-        {firstName: 'Kenya', lastName: 'Morocco'},
-        {firstName: 'Rae', lastName: 'Pasquariello'},
-        {firstName: 'Ted', lastName: 'Abundis'},
-        {firstName: 'Jessie', lastName: 'Schacherer'},
-        {firstName: 'Jamie', lastName: 'Gleaves'},
-        {firstName: 'Hillary', lastName: 'Spiva'},
-        {firstName: 'Elinor', lastName: 'Rockefeller'},
-        {firstName: 'Dona', lastName: 'Clauss'},
-        {firstName: 'Ashlee', lastName: 'Kennerly'},
-        {firstName: 'Alana', lastName: 'Wiersma'},
-        {firstName: 'Kelly', lastName: 'Holdman'},
-        {firstName: 'Mathew', lastName: 'Lofthouse'},
-        {firstName: 'Dona', lastName: 'Tatman'},
-        {firstName: 'Clayton', lastName: 'Clear'},
-        {firstName: 'Rosalinda', lastName: 'Urman'},
-        {firstName: 'Cody', lastName: 'Sayler'},
-        {firstName: 'Odessa', lastName: 'Averitt'},
-        {firstName: 'Ted', lastName: 'Poage'},
-        {firstName: 'Penelope', lastName: 'Gayer'},
-        {firstName: 'Katy', lastName: 'Bluford'},
-        {firstName: 'Kelly', lastName: 'Mchargue'},
-        {firstName: 'Kathrine', lastName: 'Gustavson'},
-        {firstName: 'Kelly', lastName: 'Hartson'},
-        {firstName: 'Carlene', lastName: 'Summitt'},
-        {firstName: 'Kathrine', lastName: 'Vrabel'},
-        {firstName: 'Roxie', lastName: 'Mcconn'},
-        {firstName: 'Margery', lastName: 'Pullman'},
-        {firstName: 'Avis', lastName: 'Bueche'},
-        {firstName: 'Esmeralda', lastName: 'Katzer'},
-        {firstName: 'Tania', lastName: 'Belmonte'},
-        {firstName: 'Malinda', lastName: 'Kwak'},
-        {firstName: 'Tanisha', lastName: 'Jobin'},
-        {firstName: 'Kelly', lastName: 'Dziedzic'},
-        {firstName: 'Darren', lastName: 'Devalle'},
-        {firstName: 'Julio', lastName: 'Buchannon'},
-        {firstName: 'Darren', lastName: 'Schreier'},
-        {firstName: 'Jamie', lastName: 'Pollman'},
-        {firstName: 'Karina', lastName: 'Pompey'},
-        {firstName: 'Hugh', lastName: 'Snover'},
-        {firstName: 'Zebra', lastName: 'Evilias'}
-    ]
-});
-
 Ext.YQL = {
     useAllPublicTables: true,
     yqlUrl: 'http://query.yahooapis.com/v1/public/yql',
@@ -94,8 +13,10 @@ Ext.YQL = {
         Ext.data.JsonP.request({
             url: this.yqlUrl,
             callbackKey: 'callback',
+            timeout: 60000,
             params: p,
             callback: cfg.callback,
+            success: cfg.success,
             scope: cfg.scope || window
         });
     }
@@ -104,11 +25,84 @@ Ext.YQL = {
 
 
 var mystore = Ext.getStore('MyStore');
+
+Ext.define('Item', {
+    extend: 'Ext.data.Model',
+    config: {
+        fields: ['feed', 'title', 'url']
+    }
+});
+var itemStore = Ext.create('Ext.data.Store', {
+    id: 'ItemStore',
+    model: 'Item',
+    //sorters: 'firstName',    
+});
+
 Ext.define('MyApp.view.YQL3', {
     extend: 'Ext.tab.Panel',
+    onReady: function() {
+        console.log("this is the onReady()");
+    },
+    
+    makeYQLCall: function(){
+
+    },
     initialize: function(){
-        console.log("this is the initialize");
+        console.log("this is the initialize()");
         var store=Ext.getStore('MyStore');
+        
+        //this method to load a particual item
+        var item,
+        /*
+        item = store.findRecord('id','ZF-NR');
+        Ext.YQL.request({
+            query: item.get('url'),
+            params: {'name':item.get('name')},
+            success: function(response, request) { 
+                if (response.query && response.query.results) { 
+                    var results = response.query.results;
+                    for(var i = 0; i<results.a.length; i++){
+                        itemStore.add({feed: request.params.name, title: results.a[i].content, url: results.a[i].href});
+                    };
+                    console.log("sucess="+item.getId());        
+                }
+            },
+        });   
+        */
+        item = store.findRecord('id','SF-TC4');
+        Ext.YQL.request({
+            query: item.get('url'),
+            //params: {'name':item.get('name')},
+            success: function(response, request) { 
+                if (response.query && response.query.results) { 
+                    var results = response.query.results;
+                    for(var i = 0; i<results.a.length; i++){
+                        itemStore.add({feed: 'ss', title: results.a[i].content, url: results.a[i].href});
+                    };
+                    console.log("sucess="+item.getId());        
+                }
+            },
+            callback: function(success, response) {
+                console.log (response.query);
+            },
+        });  
+        /*
+        item = store.findRecord('id','douban-gsbxsh');
+        Ext.YQL.request({
+            query: item.get('url'),
+            params: {'name':item.get('name')},
+            success: function(response, request) { 
+                if (response.query && response.query.results) { 
+                    var results = response.query.results;
+                    for(var i = 0; i<results.a.length; i++){
+                        itemStore.add({feed: request.params.name, title: results.a[i].content, url: results.a[i].href});
+                    };
+                    console.log("sucess="+item.getId());        
+                }
+            },
+        }); 
+        */                    
+        /* this is a iteration method to load all feeds. but now it is not work due to the async call
         var feeds = store.getRange(0, store.getCount());   
         for (var i = 0; i < feeds.length; i++) {   
             var feed = feeds[i];
@@ -117,11 +111,11 @@ Ext.define('MyApp.view.YQL3', {
                 callback: function(success, response) {
                     //console.log("feedId="+feed.getId());                       
                     if (success && response.query && response.query.results) {    
-                        console.log (response.query);
-                        feed.set('current',response.query.results);
-                        feed.applyCurrent();
-                        feed.set('update','Y');
-                        feed.save();
+                        //console.log (response.query);
+                        //feed.set('current',response.query.results);
+                        //feed.applyCurrent();
+                        //feed.set('update','Y');
+                        //feed.save();
                         //console.log(response.query.results);
                         //console.log ("success:" + response.query);
                     }
@@ -132,8 +126,10 @@ Ext.define('MyApp.view.YQL3', {
                     }
                 },
             });
-        }      
+        }   
+        */   
     },    
+    /*
     launch: function(){
         console.log("this is the launch");
         this.callParent(arguments);
@@ -145,7 +141,8 @@ Ext.define('MyApp.view.YQL3', {
             console.log ("applycurrent="+feed.applyCurrent());
         }
 
-    },       
+    },   
+    */    
     config: {
         id: 'yql3',
         activeItem: 2,
@@ -168,8 +165,8 @@ Ext.define('MyApp.view.YQL3', {
                 width: Ext.os.deviceType == 'Phone' ? null : 300,
                 height: Ext.os.deviceType == 'Phone' ? null : 500,
                 xtype: 'list',
-                store: mystore,
-                itemTpl: '<div class="contact"><strong>current={current}</br></strong>template={template}</br>name={name}</div>'
+                store: itemStore,
+                itemTpl: '<div class="contact">{feed}<a href=\'{url}\' target=\'_blank\'><strong>{title}</strong></a></div>'
             }]
         }, 
         /*
